@@ -17,46 +17,31 @@ module.exports = function (app) {
     res.json(friendData);
   })
 
-	app.post('/api/friends', function(req, res){
-		var newFriend = req.body;
+  app.post("/api/friends", function(req, res) {
+    var userInput = req.body;
+      var userResponse = userInput.scores;
+      var match = {
+        name: "",
+        photo: "",
+        difference: 500
+      };
 
-		for(var i = 0; i < newFriend.scores.length; i++) {
-			if(newFriend.scores[i] == "1 (Strongly Disagree)") {
-				newFriend.scores[i] = 1;
-			} else if(newFriend.scores[i] == "5 (Strongly Agree)") {
-				newFriend.scores[i] = 5;
-			} else {
-				newFriend.scores[i] = parseInt(newFriend.scores[i]);
-			}
-		}
+      for (var i = 0; i < friends.length; i++) {
+        var totalDifference = 0;
+        for (var j = 0; j < userResponse.length; j++) {
+          totalDifference += Math.abs(friends[i].scores[j] - userResponse[j]);
+          
+          if (totalDifference <= match.difference){
+              match.name = friends[i].name;
+              match.photo = friends[i].photo;
+              match.difference = totalDifference;
+          }
+        }
+      }
 
-		var differencesArray = [];
+      friends.push(userInput);
 
-		for(var i = 0; i < friendData.length; i++) {
+      res.json(match);
 
-			var comparedFriend = friendData[i];
-			var totalDifference = 0;
-			
-			for(var k = 0; k < comparedFriend.scores.length; k++) {
-				var differenceOneScore = Math.abs(comparedFriend.scores[k] - newFriend.scores[k]);
-				totalDifference += differenceOneScore;
-			}
-
-			differencesArray[i] = totalDifference;
-		}
-
-		var bestFriendNum = differencesArray[0];
-		var bestFriendIndex = 0;
-
-		for(var i = 1; i < differencesArray.length; i++) {
-			if(differencesArray[i] < bestFriendNum) {
-				bestFriendNum = differencesArray[i];
-				bestFriendIndex = i;
-			}
-		}
-
-		friendData.push(newFriend);
-
-		res.json(friendData[bestFriendIndex]);
-	})
-}
+    });
+  };
