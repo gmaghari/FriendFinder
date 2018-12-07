@@ -17,13 +17,15 @@ module.exports = function (app) {
     res.json(friendData);
   })
 
+    // API POST Requests
+    // Below code handles when a user submits a form and thus submits data to the server.
   app.post("/api/friends", function(req, res) {
     var userInput = req.body;
       var userResponse = userInput.scores;
       var match = {
         name: "",
         photo: "",
-        difference: 500
+        difference: 1000
       };
 
       for (var i = 0; i < friendData.length; i++) {
@@ -38,9 +40,7 @@ module.exports = function (app) {
           }
         }
       }
-
-      friendData.push(userInput);
-      res.json(match);
-
-    });
-  };
+    friendData.push(userInput);
+    res.json(match);
+  });
+};
