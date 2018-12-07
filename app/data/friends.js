@@ -1,5 +1,5 @@
 // Array of Friends
-var friendsArray = [
+var friends = [
     {
         "name":"Jeff",
         "photo":"https://vignette.wikia.nocookie.net/characters/images/4/40/Jeff_Winger.jpg",
@@ -162,4 +162,4 @@ var friendsArray = [
     }
 ];
 
-module.exports = friendsArray;
+module.exports = friends;
